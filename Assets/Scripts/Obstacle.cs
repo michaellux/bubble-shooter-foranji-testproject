@@ -14,6 +14,6 @@ abstract public class Obstacle : MonoBehaviour
 
     public void createPlane(Vector3 inNormal, Vector3 inPoint)
     {
-        Plane = new Plane(inNormal, inPoint);
+        Plane = new Plane(new Vector3(inNormal.x, inNormal.y), inPoint);
     }
 }

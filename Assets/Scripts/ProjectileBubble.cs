@@ -8,6 +8,7 @@ public class ProjectileBubble : MonoBehaviour
     private Obstacle[] obstacles;
     private LineRenderer trajectoryLine;
     Ray potentialTrajectory;
+    Color rayColor;
     Vector3 normal;
     float distance;
     private List<Vector3> trajectoryPoints = new List<Vector3>();
@@ -66,15 +67,14 @@ public class ProjectileBubble : MonoBehaviour
         trajectoryLine.startWidth = 0.08f;
         trajectoryLine.endWidth = 0.08f;
         trajectoryLine.positionCount = positions.Length;
-        Debug.Log("Position x" + positions);
         trajectoryLine.SetPositions(positions);
     }
 
     public void CalculateTrajectory()
     {
             invokeCountCalcilateRaycastCollisions = 0;
-            Vector3 projectTilePosition = gameObject.transform.position;
-            Vector3 currentWorldMousePosition = getWorldMousePosition();
+            Vector3 projectTilePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
+            Vector3 currentWorldMousePosition = new Vector3(getWorldMousePosition().x, getWorldMousePosition().y);
             Vector3 targetPosition = currentWorldMousePosition * -1;
             trajectoryPoints.Add(projectTilePosition);
             CalculateRaycastCollisionsWithObstacles(projectTilePosition, targetPosition);
@@ -93,17 +93,26 @@ public class ProjectileBubble : MonoBehaviour
             {
                 Debug.Log("Raycast");
                 Debug.Log(obstacle.gameObject.name);
-                Debug.DrawRay(transform.position, potentialTrajectory.direction * distance, Color.green);
+                rayColor = Color.green;
+                if (invokeCountCalcilateRaycastCollisions == 1)
+                {
+                    Debug.DrawRay(transform.position, potentialTrajectory.direction * distance, rayColor);
+                }
+                else
+                {
+                    Debug.DrawRay(originRaypoint, potentialTrajectory.direction * distance, rayColor);
+                }
+                
 
                 Vector3 pointCollision = potentialTrajectory.GetPoint(distance);
-                Vector3 currentPointCollision = new Vector3(pointCollision.x, pointCollision.y, 0);
+                Vector3 currentPointCollision = new Vector3(pointCollision.x, pointCollision.y);
                 trajectoryPoints.Add(currentPointCollision);
                 Debug.Log("Предусловие:" + invokeCountCalcilateRaycastCollisions + "<" + invokeCountCalcilateRaycastCollisionsLimit);
                 if (invokeCountCalcilateRaycastCollisions < invokeCountCalcilateRaycastCollisionsLimit)
                 {
                     Vector3 reflectColissionVector = Vector3.Reflect(currentPointCollision, obstacle.Plane.normal);
                     Debug.Log(invokeCountCalcilateRaycastCollisions);
-                    CalculateRaycastCollisionsWithObstacles(originRaypoint, reflectColissionVector);
+                    CalculateRaycastCollisionsWithObstacles(currentPointCollision, reflectColissionVector);
                 }
             }
         }
