@@ -680,6 +680,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: ProjectileBubble
       objectReference: {fileID: 0}
+    - target: {fileID: 2335548615881260523, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.tabIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335548615881260523, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.vertexPathUpToDate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595197564663718475, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.tabIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3595197564663718475, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.vertexPathUpToDate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5035673024112517459, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: m_Name
+      value: Path
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776038473809684007, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: speed
+      value: -17.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6776038473809684007, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: pathContainer
+      value: 
+      objectReference: {fileID: 1249597658290423688, guid: 96198894546aef94ab87b9b98e8e8122, type: 3}
+    - target: {fileID: 6776038473809684007, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: endOfPathInstruction
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6776038473809684007, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
       propertyPath: obstacles.Array.size
       value: 2
@@ -692,6 +724,10 @@ PrefabInstance:
       propertyPath: obstacles.Array.data[1]
       value: 
       objectReference: {fileID: 637017967}
+    - target: {fileID: 6776038473809684007, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: trajectoryPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6864014520161404536, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -740,6 +776,22 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8868746029049786903, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.tabIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8868746029049786903, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.showDisplayOptions
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8868746029049786903, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.vertexPathUpToDate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8868746029049786903, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+      propertyPath: editorData.showVertexPathDisplayOptions
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
 --- !u!4 &4148611860050753366 stripped
@@ -747,6 +799,26 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7397042859535032927, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
   m_PrefabInstance: {fileID: 4148611860050753365}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4148611860050753367 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6467979240158226761, guid: ddc75ac4271ad784a8c11139f28748b1, type: 3}
+  m_PrefabInstance: {fileID: 4148611860050753365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4148611860050753368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4148611860050753367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474d0c317f5350746b3c977a285cae27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pathCreator: {fileID: 0}
+  endOfPathInstruction: 0
+  speed: 5
 --- !u!1001 &4227975846362384110
 PrefabInstance:
   m_ObjectHideFlags: 0

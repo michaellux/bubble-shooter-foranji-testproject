@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using PathCreation;
+
 public class ProjectileBubble : MonoBehaviour
 {
     [SerializeField]
     private Obstacle[] obstacles;
+
     private LineRenderer trajectoryLine;
-    Ray potentialTrajectory;
-    Color rayColor;
-    Vector3 normal;
-    float distance;
+    private Ray potentialTrajectory;
+    private Color rayColor;
+    private Vector3 normal;
+    private float distance;
+    [SerializeField]
     private List<Vector3> trajectoryPoints = new List<Vector3>();
 
     private int invokeCountCalcilateRaycastCollisions = 0;
     private int invokeCountCalcilateRaycastCollisionsLimit = 3;
+
+    [SerializeField]
+    private GameObject projectilePath;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +42,21 @@ public class ProjectileBubble : MonoBehaviour
         {
             CalculateTrajectory();
             DrawTrajectory(trajectoryPoints.ToArray());
-            trajectoryPoints.Clear();
+
+            Vector2[] trajectoryPoints2D = trajectoryPoints.ConvertAll<Vector2>(trajectoryPoint => new Vector2(trajectoryPoint.x, trajectoryPoint.y)).ToArray();
+            //Debug.Log(projectilePath.GetComponent<PathCreator>().bezierPath);
+
+            projectilePath = Resources.Load("Prefabs/ProjectileBubblePath") as GameObject;
+            GameObject projectilePathClone = Instantiate(projectilePath, transform.parent);
+            
+            PathCreator projectilePathClonePathCreator = projectilePathClone.GetComponent<PathCreator>();
+            BezierPath bezierPath = new BezierPath(trajectoryPoints2D, false, PathSpace.xy);
+            projectilePathClonePathCreator.bezierPath = bezierPath;
+            projectilePathClonePathCreator.bezierPath.ControlPointMode = BezierPath.ControlMode.Automatic;
+            projectilePathClonePathCreator.bezierPath.AutoControlLength = 0.0f;
+            GetComponent<ProjectileBubbleFollower>().pathCreator = projectilePathClonePathCreator;
+                       
+            //trajectoryPoints.Clear();
         }
     }
 
@@ -45,8 +66,8 @@ public class ProjectileBubble : MonoBehaviour
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
         #if UNITY_EDITOR
-                Debug.Log(worldPosition.x);
-                Debug.Log(worldPosition.y);
+                //Debug.Log(worldPosition.x);
+                //Debug.Log(worldPosition.y);
         #endif
 
         return worldPosition;
@@ -72,13 +93,12 @@ public class ProjectileBubble : MonoBehaviour
 
     public void CalculateTrajectory()
     {
-            invokeCountCalcilateRaycastCollisions = 0;
-            Vector3 projectTilePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
-            Vector3 currentWorldMousePosition = new Vector3(getWorldMousePosition().x, getWorldMousePosition().y);
-            Vector3 targetPosition = currentWorldMousePosition * -1;
-            trajectoryPoints.Add(projectTilePosition);
-            CalculateRaycastCollisionsWithObstacles(projectTilePosition, targetPosition);
-        
+        invokeCountCalcilateRaycastCollisions = 0;
+        Vector3 projectTilePosition = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y);
+        Vector3 currentWorldMousePosition = new Vector3(getWorldMousePosition().x, getWorldMousePosition().y);
+        Vector3 targetPosition = currentWorldMousePosition * -1;
+        trajectoryPoints.Add(projectTilePosition);
+        CalculateRaycastCollisionsWithObstacles(projectTilePosition, targetPosition);
     }
 
     public void CalculateRaycastCollisionsWithObstacles(Vector3 originRaypoint, Vector3 directionRay)
@@ -107,6 +127,7 @@ public class ProjectileBubble : MonoBehaviour
                 Vector3 pointCollision = potentialTrajectory.GetPoint(distance);
                 Vector3 currentPointCollision = new Vector3(pointCollision.x, pointCollision.y);
                 trajectoryPoints.Add(currentPointCollision);
+
                 Debug.Log("Предусловие:" + invokeCountCalcilateRaycastCollisions + "<" + invokeCountCalcilateRaycastCollisionsLimit);
                 if (invokeCountCalcilateRaycastCollisions < invokeCountCalcilateRaycastCollisionsLimit)
                 {
