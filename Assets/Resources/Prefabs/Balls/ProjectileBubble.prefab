@@ -97,5 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   obstacles: []
   trajectoryPoints: []
-  collisionWaypoints: []
-  pathContainer: {fileID: 0}
+  projectilePath: {fileID: 0}
+  power: 100

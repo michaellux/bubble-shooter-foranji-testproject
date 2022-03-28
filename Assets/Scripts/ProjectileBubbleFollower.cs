@@ -8,7 +8,7 @@ public class ProjectileBubbleFollower : MonoBehaviour
 {
     public PathCreator pathCreator;
     public EndOfPathInstruction endOfPathInstruction;
-    public float speed = 5;
+    public float speed;
     float distanceTravelled;
 
     void Start()
