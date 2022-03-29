@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+
 
 public class MenuController : MonoBehaviour
 {
@@ -24,11 +24,11 @@ public class MenuController : MonoBehaviour
 
     public void StartNewGame()
     {
-        SceneManager.LoadScene(1);
+        GameManager.instance.StateMachine.FindOut(Events.NewGameButtonPressed);
     }
     public void ShowCredits()
     {
-        SceneManager.LoadScene(2);
+        //SceneManager.LoadScene(2);
     }
     public void QuitGame()
     {

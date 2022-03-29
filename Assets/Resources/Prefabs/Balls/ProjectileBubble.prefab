@@ -99,3 +99,5 @@ MonoBehaviour:
   trajectoryPoints: []
   projectilePath: {fileID: 0}
   power: 100
+  initialVelocity: {x: 0, y: 0, z: 0}
+  degreeOfTension: 
