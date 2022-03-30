@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using UnityEngine.SceneManagement;
+using UnityEngine;
+
 internal class StartState : State
 {
     internal StartState()
@@ -16,14 +17,24 @@ internal class StartState : State
     {
         switch (eventItem)
         {
-            case Events.NewGameButtonPressed:
-                {
-                    SceneManager.LoadScene(1);
-                    GameManager.instance.LoadGameData();
-                    GameManager.instance.GeneratePlayField();
-                    //stateMachine.State = new StartBallPositionState();
-                    break;
-                }
+            //case Events.NewGameButtonPressed:
+            //    {
+            //        SceneManager.sceneLoaded += OnSceneLoaded;
+            //        SceneManager.LoadScene("Gameplay");
+                   
+            //        break;
+            //    }
         }
     }
+
+    //void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    //{
+    //    Debug.Log("OnSceneLoaded: " + scene.name);
+    //    Debug.Log(mode);
+       
+    //    bool status = SceneManager.GetSceneByName("Gameplay").isLoaded;
+    //    GameManager.instance.LoadGameData();
+    //    GameManager.instance.GeneratePlayField();
+    //    //stateMachine.State = new StartBallPositionState();
+    //}
 }

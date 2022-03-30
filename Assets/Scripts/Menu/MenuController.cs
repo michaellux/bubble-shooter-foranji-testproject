@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
@@ -24,7 +25,8 @@ public class MenuController : MonoBehaviour
 
     public void StartNewGame()
     {
-        GameManager.instance.StateMachine.FindOut(Events.NewGameButtonPressed);
+        //GameManager.instance.StateMachine.FindOut(Events.NewGameButtonPressed);
+        SceneManager.LoadScene("Gameplay");
     }
     public void ShowCredits()
     {
