@@ -283,6 +283,10 @@ PrefabInstance:
       propertyPath: playField
       value: 
       objectReference: {fileID: 3592952881030029101}
+    - target: {fileID: 1745876977854189045, guid: aefa66c2edc124f4e93fd39d49b3ec00, type: 3}
+      propertyPath: playFieldTransform
+      value: 
+      objectReference: {fileID: 3592952881030029101}
     - target: {fileID: 2113687805007702893, guid: aefa66c2edc124f4e93fd39d49b3ec00, type: 3}
       propertyPath: m_Name
       value: GameManager
