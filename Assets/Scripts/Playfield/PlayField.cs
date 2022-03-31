@@ -21,10 +21,12 @@ public struct PlayField
 
     public struct BubbleRow
     {
+        public Vector3 position;
         public GoalBubble[] goalBubbles;
 
-        public BubbleRow(GoalBubble[] goalBubbles)
+        public BubbleRow(Vector3 position, GoalBubble[] goalBubbles)
         {
+            this.position = position;
             this.goalBubbles = goalBubbles;
         }
     }

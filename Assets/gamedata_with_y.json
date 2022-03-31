@@ -11,7 +11,7 @@
           {
             "position": {
               "x": -2,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -20,7 +20,7 @@
           {
             "position": {
               "x": -1.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "RED",
@@ -29,7 +29,7 @@
           {
             "position": {
               "x": -1,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "BLUE",
@@ -38,7 +38,7 @@
           {
             "position": {
               "x": -0.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -47,7 +47,7 @@
           {
             "position": {
               "x": 0,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "RED",
@@ -56,7 +56,7 @@
           {
             "position": {
               "x": 0.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "YELLOW",
@@ -65,7 +65,7 @@
           {
             "position": {
               "x": 1,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "RED",
@@ -74,7 +74,7 @@
           {
             "position": {
               "x": 1.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "YELLOW",
@@ -83,7 +83,7 @@
           {
             "position": {
               "x": 2,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -92,109 +92,10 @@
           {
             "position": {
               "x": 2.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "RED",
-            "isExists": true
-          }
-        ]
-      },
-      {
-        "position": {
-              "x": 0,
-              "y": 0.5,
-              "z": 0
-            },
-        "goalBubbles": [
-          {
-            "position": {
-              "x": -2,
-              "y": 0,
-              "z": 0
-            },
-            "type": "RED",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": -1.5,
-              "y": 0,
-              "z": 0
-            },
-            "type": "BLUE",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": -1,
-              "y": 0,
-              "z": 0
-            },
-            "type": "BLUE",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": -0.5,
-              "y": 0,
-              "z": 0
-            },
-            "type": "YELLOW",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "type": "GREEN",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 0.5,
-              "y": 0,
-              "z": 0
-            },
-            "type": "RED",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 1,
-              "y": 0,
-              "z": 0
-            },
-            "type": "BLUE",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 1.5,
-              "y": 0,
-              "z": 0
-            },
-            "type": "YELLOW",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 2,
-              "y": 0,
-              "z": 0
-            },
-            "type": "YELLOW",
-            "isExists": true
-          },
-          {
-            "position": {
-              "x": 2.5,
-              "y": 0,
-              "z": 0
-            },
-            "type": "YELLOW",
             "isExists": true
           }
         ]
@@ -209,25 +110,25 @@
           {
             "position": {
               "x": -2,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
-            "type": "GREEN",
+            "type": "RED",
             "isExists": true
           },
           {
             "position": {
               "x": -1.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
-            "type": "GREEN",
+            "type": "BLUE",
             "isExists": true
           },
           {
             "position": {
               "x": -1,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "BLUE",
@@ -236,7 +137,106 @@
           {
             "position": {
               "x": -0.5,
-              "y": 0,
+              "y": 3,
+              "z": 0
+            },
+            "type": "YELLOW",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 0,
+              "y": 3,
+              "z": 0
+            },
+            "type": "GREEN",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 0.5,
+              "y": 3,
+              "z": 0
+            },
+            "type": "RED",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 1,
+              "y": 3,
+              "z": 0
+            },
+            "type": "BLUE",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 1.5,
+              "y": 3,
+              "z": 0
+            },
+            "type": "YELLOW",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 2,
+              "y": 3,
+              "z": 0
+            },
+            "type": "YELLOW",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": 2.5,
+              "y": 3,
+              "z": 0
+            },
+            "type": "YELLOW",
+            "isExists": true
+          }
+        ]
+      },
+      {
+        "position": {
+              "x": 0,
+              "y": 2,
+              "z": 0
+            },
+        "goalBubbles": [
+          {
+            "position": {
+              "x": -2,
+              "y": 3,
+              "z": 0
+            },
+            "type": "GREEN",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": -1.5,
+              "y": 3,
+              "z": 0
+            },
+            "type": "GREEN",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": -1,
+              "y": 3,
+              "z": 0
+            },
+            "type": "BLUE",
+            "isExists": true
+          },
+          {
+            "position": {
+              "x": -0.5,
+              "y": 3,
               "z": 0
             },
             "type": "BLUE",
@@ -245,7 +245,7 @@
           {
             "position": {
               "x": 0,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "BLUE",
@@ -254,7 +254,7 @@
           {
             "position": {
               "x": 0.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -263,7 +263,7 @@
           {
             "position": {
               "x": 1,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -272,7 +272,7 @@
           {
             "position": {
               "x": 1.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -281,7 +281,7 @@
           {
             "position": {
               "x": 2,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",
@@ -290,7 +290,7 @@
           {
             "position": {
               "x": 2.5,
-              "y": 0,
+              "y": 3,
               "z": 0
             },
             "type": "GREEN",

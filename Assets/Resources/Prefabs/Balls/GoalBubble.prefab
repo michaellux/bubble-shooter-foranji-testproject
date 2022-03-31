@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8419775643835436453}
   - component: {fileID: 3231646358771795798}
   - component: {fileID: 2203286062428636158}
-  - component: {fileID: 6554970095535603627}
-  - component: {fileID: -7902475928769242375}
+  - component: {fileID: -6325113298711914492}
+  - component: {fileID: 1752738548104466209}
   m_Layer: 0
   m_Name: GoalBubble
   m_TagString: Obstacle
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5457376233805022899}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 3, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.65, y: 0.65, z: 0.65}
   m_Children: []
   m_Father: {fileID: 0}
@@ -101,7 +101,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.016601086}
   serializedVersion: 2
   m_Radius: 0.36815554
---- !u!50 &6554970095535603627
+--- !u!50 &-6325113298711914492
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -122,7 +122,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!231 &-7902475928769242375
+--- !u!231 &1752738548104466209
 SpringJoint2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -137,7 +137,7 @@ SpringJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -2, y: 3.416}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 0
   m_Distance: 0.4
   m_DampingRatio: 0
