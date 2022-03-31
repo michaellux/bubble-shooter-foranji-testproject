@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance = null;
 
+    [SerializeField] private GameObject player;
     [SerializeField] private Transform playFieldTransform;
     [SerializeField] private GameObject bubbleField;
 
@@ -64,6 +65,7 @@ public class GameManager : MonoBehaviour
     public void GeneratePlayField()
     {
         GenerateBubbleField();
+        GenerateProjectile();
     }
 
     public void GenerateBubbleField()
@@ -123,5 +125,14 @@ public class GameManager : MonoBehaviour
         SpringJoint2D goalBubbleInSceneSpringJoint = goalBubbleInScene.GetComponent<SpringJoint2D>();
         goalBubbleInSceneSpringJoint.connectedAnchor =
             new Vector2(goalBubbleInScene.transform.position.x, goalBubbleInScene.transform.position.y + (goalBubbleInScene.transform.localScale.y / 2));
+    }
+
+    public void GenerateProjectile()
+    {
+        GameObject ProjectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
+        GameObject ProjectileBubbleInScene = Instantiate(ProjectileBubblePrefab);
+        ProjectileBubbleInScene.transform.SetParent(player.transform);
+        ProjectileBubbleInScene.transform.localPosition = new Vector3(ProjectileBubblePrefab.transform.position.x, 
+            ProjectileBubblePrefab.transform.position.y);
     }
 }

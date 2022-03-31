@@ -6,8 +6,9 @@ using PathCreation;
 
 public class ProjectileBubble : MonoBehaviour
 {
-    [SerializeField]
-    private Obstacle[] obstacles;
+    [SerializeField] private Obstacle[] obstacles;
+    [SerializeField] private ProjectileBubbleType type;
+
 
     private LineRenderer trajectoryLine;
     private Ray potentialTrajectory;
@@ -41,7 +42,7 @@ public class ProjectileBubble : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-
+            Debug.Log("Удержание кнопки мыши");
             CalculateParabolicTrajectory();
             //CalculateTrajectory();
             DrawTrajectory(trajectoryPoints.ToArray());
@@ -52,17 +53,16 @@ public class ProjectileBubble : MonoBehaviour
         }
         if (Input.GetMouseButtonUp(0))
         {
-            CalculateParabolicTrajectory();
+              CalculateParabolicTrajectory();
             //CalculateTrajectory();
-            DrawTrajectory(trajectoryPoints.ToArray());
+              DrawTrajectory(trajectoryPoints.ToArray());
 
             Vector2[] trajectoryPoints2D = trajectoryPoints.ConvertAll<Vector2>(trajectoryPoint => new Vector2(trajectoryPoint.x, trajectoryPoint.y)).ToArray();
             //Debug.Log(projectilePath.GetComponent<PathCreator>().bezierPath);
 
             projectilePath = Resources.Load("Prefabs/ProjectileBubblePath") as GameObject;
-            GameObject projectilePathClone = Instantiate(projectilePath, transform.parent);
+            GameObject projectilePathClone = Instantiate(projectilePath);
 
-            
 
             PathCreator projectilePathClonePathCreator = projectilePathClone.GetComponent<PathCreator>();
             BezierPath bezierPath = new BezierPath(trajectoryPoints2D, false, PathSpace.xy);
@@ -71,8 +71,8 @@ public class ProjectileBubble : MonoBehaviour
             projectilePathClonePathCreator.bezierPath.AutoControlLength = 0.0f;
             GetComponent<ProjectileBubbleFollower>().pathCreator = projectilePathClonePathCreator;
             GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
-            degreeOfTension = $"{GetComponent<ProjectileBubbleFollower>().speed / 1.4}%";           
-            //trajectoryPoints.Clear();
+            degreeOfTension = $"{GetComponent<ProjectileBubbleFollower>().speed / 1.4}%";
+            trajectoryPoints.Clear();
         }
     }
 
@@ -109,7 +109,7 @@ public class ProjectileBubble : MonoBehaviour
 
     public void CalculateParabolicTrajectory()
     {
-        //
+        Debug.Log("Calculateparabolic");
         float enter;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         new Plane(-Vector3.forward, transform.position).Raycast(ray, out enter);
@@ -126,7 +126,10 @@ public class ProjectileBubble : MonoBehaviour
         {
             float time = t * i / (float)(100);
             Vector3 currentPoint = transform.position + initialVelocity * time + 0.5f * Physics.gravity * time * time;
+            currentPoint = new Vector3(currentPoint.x, currentPoint.y, 0);
+            Debug.Log(currentPoint);
             trajectoryPoints.Add(currentPoint);
+            
         }
         //
     }
@@ -180,3 +183,8 @@ public class ProjectileBubble : MonoBehaviour
         }
     }
 }
+
+public enum ProjectileBubbleType
+{
+    RED, GREEN, YELLOW, BLUE
+};
