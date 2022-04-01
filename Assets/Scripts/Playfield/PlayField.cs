@@ -31,25 +31,6 @@ public struct PlayField
         }
     }
 
-    public enum GoalBubbleType
-    {
-        RED, GREEN, YELLOW, BLUE
-    };
-
-    public struct GoalBubble
-    {
-        public Vector3 position;
-        public GoalBubbleType type;
-        public bool isExists;
-
-        public GoalBubble(Vector3 position, GoalBubbleType type, bool isExists)
-        {
-            this.position = position;
-            this.type = type;
-            this.isExists = isExists;
-        }
-    }
-
     public PlayField(BubbleField bubbleField)
     {
         this.bubbleField = bubbleField;

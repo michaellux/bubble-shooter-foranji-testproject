@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2203286062428636158}
   - component: {fileID: -6325113298711914492}
   - component: {fileID: 1752738548104466209}
+  - component: {fileID: -8450461114225086241}
   m_Layer: 0
   m_Name: GoalBubble
   m_TagString: Obstacle
@@ -142,3 +143,15 @@ SpringJoint2D:
   m_Distance: 0.4
   m_DampingRatio: 0
   m_Frequency: 2
+--- !u!114 &-8450461114225086241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5457376233805022899}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c181d34ff9b1a74419c09d9c2c1177f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

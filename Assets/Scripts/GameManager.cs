@@ -85,34 +85,38 @@ public class GameManager : MonoBehaviour
                 GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
                 goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
                 ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
+
+                //Обновить модель
+                //GoalBubble goal = goalBubbleInScene.GetComponent<GoalBubble>();
+
             }
         }
     }
 
-    public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, PlayField.GoalBubble goalBubble)
+    public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, GoalBubble goalBubble)
     {
         //goalBubbleInScene.transform.position = new Vector3(goalBubble.position.x, goalBubble.position.y, goalBubble.position.z);
         goalBubbleInScene.transform.localPosition = new Vector3(goalBubble.position.x, 0);
-        ConfigColorGoalBubbleInScene(goalBubbleInScene, goalBubble);
+        ConfigColorBubbleInScene(goalBubbleInScene, goalBubble.type);
         ConfigSpringJoint(goalBubbleInScene);
     }
 
-    public void ConfigColorGoalBubbleInScene(GameObject goalBubbleInScene, PlayField.GoalBubble goalBubble)
+    public void ConfigColorBubbleInScene(GameObject bubbleInScene, BubbleTypes bubbleType)
     {
-        SpriteRenderer goalBubbleInSceneSpriteRenderer = goalBubbleInScene.GetComponent<SpriteRenderer>();
+        SpriteRenderer goalBubbleInSceneSpriteRenderer = bubbleInScene.GetComponent<SpriteRenderer>();
 
-        switch (goalBubble.type)
+        switch (bubbleType)
         {
-            case PlayField.GoalBubbleType.RED:
+            case BubbleTypes.RED:
                 goalBubbleInSceneSpriteRenderer.color = Color.red;
                 break;
-            case PlayField.GoalBubbleType.GREEN:
+            case BubbleTypes.GREEN:
                 goalBubbleInSceneSpriteRenderer.color = Color.green;
                 break;
-            case PlayField.GoalBubbleType.YELLOW:
+            case BubbleTypes.YELLOW:
                 goalBubbleInSceneSpriteRenderer.color = Color.yellow;
                 break;
-            case PlayField.GoalBubbleType.BLUE:
+            case BubbleTypes.BLUE:
                 goalBubbleInSceneSpriteRenderer.color = Color.blue;
                 break;
             default:
@@ -134,5 +138,30 @@ public class GameManager : MonoBehaviour
         ProjectileBubbleInScene.transform.SetParent(player.transform);
         ProjectileBubbleInScene.transform.localPosition = new Vector3(ProjectileBubblePrefab.transform.position.x, 
             ProjectileBubblePrefab.transform.position.y);
+
+        BubbleTypes randomType = Utilities.RandomEnumValue<BubbleTypes>();
+        ProjectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(randomType);
+        ConfigColorBubbleInScene(ProjectileBubbleInScene, randomType);
+    }
+
+    public void GenerateProjectile(BubbleTypes type)
+    {
+        GameObject ProjectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
+        GameObject ProjectileBubbleInScene = Instantiate(ProjectileBubblePrefab);
+        ProjectileBubbleInScene.transform.SetParent(player.transform);
+        ProjectileBubbleInScene.transform.localPosition = new Vector3(ProjectileBubblePrefab.transform.position.x,
+            ProjectileBubblePrefab.transform.position.y);
+        ProjectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(type);
+        ConfigColorBubbleInScene(ProjectileBubbleInScene, type);
+    }
+
+    public void GenerateGoalBubble(BubbleTypes type, Transform transform, Transform parent)
+    {
+        GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
+        GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, transform.position, transform.rotation, parent);
+        ConfigColorBubbleInScene(goalBubbleInScene, goalBubbleInScene.GetComponent<GoalBubble>().type);
+        ConfigSpringJoint(goalBubbleInScene);
+        Debug.Log("New position x:" + transform.position.x);
+        Debug.Log("New position y:" + transform.position.y);
     }
 }

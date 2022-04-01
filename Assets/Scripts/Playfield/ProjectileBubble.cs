@@ -7,7 +7,7 @@ using PathCreation;
 public class ProjectileBubble : MonoBehaviour
 {
     [SerializeField] private Obstacle[] obstacles;
-    [SerializeField] private ProjectileBubbleType type;
+    [SerializeField] private BubbleTypes type;
 
 
     private LineRenderer trajectoryLine;
@@ -182,9 +182,14 @@ public class ProjectileBubble : MonoBehaviour
             }
         }
     }
-}
 
-public enum ProjectileBubbleType
-{
-    RED, GREEN, YELLOW, BLUE
-};
+    public void SetProjectileBubbleType(BubbleTypes type)
+    {
+        this.type = type;
+    }
+
+    public BubbleTypes GetProjectileBubbleType()
+    {
+        return type;
+    }
+}
