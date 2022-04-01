@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public static GameManager instance = null;
 
     [SerializeField] private GameObject player;
+    public GameObject playFieldInScene;
+    public GameObject nextMovesLeftBubbleInScene;
     [SerializeField] private Transform playFieldTransform;
     [SerializeField] private GameObject bubbleField;
 
@@ -66,6 +68,7 @@ public class GameManager : MonoBehaviour
     {
         GenerateBubbleField();
         GenerateProjectile();
+        GenerateNextMovesLeftBubble();
     }
 
     public void GenerateBubbleField()
@@ -88,7 +91,6 @@ public class GameManager : MonoBehaviour
 
                 //Обновить модель
                 //GoalBubble goal = goalBubbleInScene.GetComponent<GoalBubble>();
-
             }
         }
     }
@@ -133,26 +135,26 @@ public class GameManager : MonoBehaviour
 
     public void GenerateProjectile()
     {
-        GameObject ProjectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
-        GameObject ProjectileBubbleInScene = Instantiate(ProjectileBubblePrefab);
-        ProjectileBubbleInScene.transform.SetParent(player.transform);
-        ProjectileBubbleInScene.transform.localPosition = new Vector3(ProjectileBubblePrefab.transform.position.x, 
-            ProjectileBubblePrefab.transform.position.y);
+        GameObject projectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
+        GameObject projectileBubbleInScene = Instantiate(projectileBubblePrefab);
+        projectileBubbleInScene.transform.SetParent(player.transform);
+        projectileBubbleInScene.transform.localPosition = new Vector3(projectileBubblePrefab.transform.position.x, 
+            projectileBubblePrefab.transform.position.y);
 
         BubbleTypes randomType = Utilities.RandomEnumValue<BubbleTypes>();
-        ProjectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(randomType);
-        ConfigColorBubbleInScene(ProjectileBubbleInScene, randomType);
+        projectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(randomType);
+        ConfigColorBubbleInScene(projectileBubbleInScene, randomType);
     }
 
     public void GenerateProjectile(BubbleTypes type)
     {
-        GameObject ProjectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
-        GameObject ProjectileBubbleInScene = Instantiate(ProjectileBubblePrefab);
-        ProjectileBubbleInScene.transform.SetParent(player.transform);
-        ProjectileBubbleInScene.transform.localPosition = new Vector3(ProjectileBubblePrefab.transform.position.x,
-            ProjectileBubblePrefab.transform.position.y);
-        ProjectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(type);
-        ConfigColorBubbleInScene(ProjectileBubbleInScene, type);
+        GameObject projectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
+        GameObject projectileBubbleInScene = Instantiate(projectileBubblePrefab);
+        projectileBubbleInScene.transform.SetParent(player.transform);
+        projectileBubbleInScene.transform.localPosition = new Vector3(projectileBubblePrefab.transform.position.x,
+            projectileBubblePrefab.transform.position.y);
+        projectileBubbleInScene.GetComponent<ProjectileBubble>().SetProjectileBubbleType(type);
+        ConfigColorBubbleInScene(projectileBubbleInScene, type);
     }
 
     public void GenerateGoalBubble(BubbleTypes type, Transform transform, Transform parent)
@@ -163,5 +165,19 @@ public class GameManager : MonoBehaviour
         ConfigSpringJoint(goalBubbleInScene);
         Debug.Log("New position x:" + transform.position.x);
         Debug.Log("New position y:" + transform.position.y);
+    }
+
+    public void GenerateNextMovesLeftBubble()
+    {
+        GameObject nextMovesLeftBubblePrefab = Resources.Load("Prefabs/Balls/NextMovesLeftBubble") as GameObject;
+        nextMovesLeftBubbleInScene = Instantiate(nextMovesLeftBubblePrefab);
+        nextMovesLeftBubbleInScene.transform.SetParent(playFieldInScene.transform);
+
+        nextMovesLeftBubbleInScene.transform.localPosition = new Vector3(nextMovesLeftBubblePrefab.transform.position.x,
+           nextMovesLeftBubblePrefab.transform.position.y);
+
+        BubbleTypes randomType = Utilities.RandomEnumValue<BubbleTypes>();
+        nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().type = randomType;
+        ConfigColorBubbleInScene(nextMovesLeftBubbleInScene, randomType);
     }
 }

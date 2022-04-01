@@ -29,7 +29,7 @@ public class ProjectileBubble : MonoBehaviour
     [SerializeField]
     private Vector3 initialVelocity;
     [SerializeField]
-    private string degreeOfTension;
+    private double degreeOfTension;
 
     // Start is called before the first frame update
     void Start()
@@ -47,7 +47,7 @@ public class ProjectileBubble : MonoBehaviour
             //CalculateTrajectory();
             DrawTrajectory(trajectoryPoints.ToArray());
             GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
-            degreeOfTension = $"{GetComponent<ProjectileBubbleFollower>().speed / 1.4}%";
+            degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
 
             trajectoryPoints.Clear();
         }
@@ -71,7 +71,7 @@ public class ProjectileBubble : MonoBehaviour
             projectilePathClonePathCreator.bezierPath.AutoControlLength = 0.0f;
             GetComponent<ProjectileBubbleFollower>().pathCreator = projectilePathClonePathCreator;
             GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
-            degreeOfTension = $"{GetComponent<ProjectileBubbleFollower>().speed / 1.4}%";
+            degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
             trajectoryPoints.Clear();
         }
     }
@@ -191,5 +191,10 @@ public class ProjectileBubble : MonoBehaviour
     public BubbleTypes GetProjectileBubbleType()
     {
         return type;
+    }
+
+    public double GetDegreeOfTension()
+    {
+        return degreeOfTension;
     }
 }

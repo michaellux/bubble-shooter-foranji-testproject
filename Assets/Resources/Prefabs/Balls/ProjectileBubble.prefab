@@ -119,9 +119,9 @@ MonoBehaviour:
   type: 0
   trajectoryPoints: []
   projectilePath: {fileID: 0}
-  power: 100
+  power: 10
   initialVelocity: {x: 0, y: 0, z: 0}
-  degreeOfTension: 
+  degreeOfTension: 0
 --- !u!50 &3502432693592040304
 Rigidbody2D:
   serializedVersion: 4

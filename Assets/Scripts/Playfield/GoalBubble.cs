@@ -31,18 +31,36 @@ public class GoalBubble: MonoBehaviour
     {
         if (collision.collider.gameObject.tag == "Projectile")
         {
-            GameObject currentGameObject = gameObject;
-            Destroy(gameObject);
-
-            GameObject projectile = collision.collider.gameObject;
-            ProjectileBubble projectileBubble = projectile.GetComponent<ProjectileBubble>();
-            Destroy(projectile);
-
-            GameManager.instance.GenerateProjectile(projectileBubble.GetComponent<ProjectileBubble>().GetProjectileBubbleType());
-            GameManager.instance.GenerateGoalBubble(projectileBubble.GetProjectileBubbleType(), 
-                currentGameObject.transform, currentGameObject.transform.parent);
-            Debug.Log("Old position x:" + currentGameObject.GetComponent<GoalBubble>().transform.position.x);
-            Debug.Log("Old position y:" + currentGameObject.GetComponent<GoalBubble>().transform.position.y);
+            // Опция. Применить паттерн стратегия
+            double currentDegreeOfTension = collision.collider.gameObject.GetComponent<ProjectileBubble>().GetDegreeOfTension();
+            BubbleTypes type = collision.collider.gameObject.GetComponent<ProjectileBubble>().GetProjectileBubbleType();
+            if (currentDegreeOfTension >= 100)
+            {
+                CrashGoalBubbleAlgorithm(collision);
+            }
         }
+    }
+
+    public void CrashGoalBubbleAlgorithm(Collision2D collision)
+    {
+        GameObject currentGameObject = gameObject;
+        Destroy(gameObject);
+
+
+        GameObject projectile = collision.collider.gameObject;
+        ProjectileBubble projectileBubble = projectile.GetComponent<ProjectileBubble>();
+        Destroy(projectile);
+
+        Destroy(GameManager.instance.nextMovesLeftBubbleInScene);
+        //Отладить!
+        GameManager.instance.GenerateNextMovesLeftBubble();
+
+        GameManager.instance.GenerateProjectile(GameManager.instance.nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().type);
+        GameManager.instance.GenerateGoalBubble(projectileBubble.GetProjectileBubbleType(), 
+        currentGameObject.transform, currentGameObject.transform.parent);
+        Debug.Log("Old position x:" + currentGameObject.GetComponent<GoalBubble>().transform.position.x);
+        Debug.Log("Old position y:" + currentGameObject.GetComponent<GoalBubble>().transform.position.y);
+
+        
     }
 }
