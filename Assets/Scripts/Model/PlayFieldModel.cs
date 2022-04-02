@@ -4,9 +4,8 @@ using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-public struct PlayField
+public struct PlayFieldModel
 {
-    [SerializeField]
     public BubbleField bubbleField;
 
     public struct BubbleField
@@ -31,10 +30,8 @@ public struct PlayField
         }
     }
 
-    public PlayField(BubbleField bubbleField)
+    public PlayFieldModel(BubbleField bubbleField)
     {
         this.bubbleField = bubbleField;
     }
-
-
 }

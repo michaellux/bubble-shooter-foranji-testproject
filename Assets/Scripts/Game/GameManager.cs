@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playFieldTransform;
     [SerializeField] private GameObject bubbleField;
 
-    private PlayField playField;
+    private PlayFieldModel playField;
 
     void Awake()
     {
@@ -58,42 +58,42 @@ public class GameManager : MonoBehaviour
 
     public void LoadGameData()
     {
-        if (File.Exists(Application.dataPath + "/gamedata.json"))
-        {
-            string gameSaveString = File.ReadAllText(Application.dataPath + "/gamedata.json");
-            playField = JsonConvert.DeserializeObject<PlayField>(gameSaveString);
-        }
+        //if (File.Exists(Application.dataPath + "/gamedata.json"))
+        //{
+        //    string gameSaveString = File.ReadAllText(Application.dataPath + "/gamedata.json");
+        //    playField = JsonConvert.DeserializeObject<PlayField>(gameSaveString);
+        //}
     }
     public void GeneratePlayField()
     {
-        GenerateBubbleField();
+        //GenerateBubbleField();
         GenerateProjectile();
         GenerateNextMovesLeftBubble();
     }
 
-    public void GenerateBubbleField()
-    {
-        GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform);
-        foreach (var bubbleRow in playField.bubbleField.bubbleRows)
-        {
-            GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
-            GameObject bubbleRowInScene = Instantiate(bubbleRowPrefab, bubbleFieldInScene.transform.position, 
-                bubbleFieldInScene.transform.rotation);
-            bubbleRowInScene.transform.SetParent(bubbleFieldInScene.transform);
-            bubbleRowInScene.transform.localPosition = new Vector3(bubbleRow.position.x, bubbleRow.position.y);
+    //public void GenerateBubbleField()
+    //{
+    //    GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform);
+    //    foreach (var bubbleRow in playField.bubbleField.bubbleRows)
+    //    {
+    //        GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
+    //        GameObject bubbleRowInScene = Instantiate(bubbleRowPrefab, bubbleFieldInScene.transform.position, 
+    //            bubbleFieldInScene.transform.rotation);
+    //        bubbleRowInScene.transform.SetParent(bubbleFieldInScene.transform);
+    //        bubbleRowInScene.transform.localPosition = new Vector3(bubbleRow.position.x, bubbleRow.position.y);
 
-            foreach (var goalBubble in bubbleRow.goalBubbles)
-            {
-                GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
-                GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
-                goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
-                ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
+    //        foreach (var goalBubble in bubbleRow.goalBubbles)
+    //        {
+    //            GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
+    //            GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
+    //            goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
+    //            ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
 
-                //Обновить модель
-                //GoalBubble goal = goalBubbleInScene.GetComponent<GoalBubble>();
-            }
-        }
-    }
+    //            //Обновить модель
+    //            //GoalBubble goal = goalBubbleInScene.GetComponent<GoalBubble>();
+    //        }
+    //    }
+    //}
 
     public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, GoalBubble goalBubble)
     {

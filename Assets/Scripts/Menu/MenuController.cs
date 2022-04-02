@@ -21,6 +21,8 @@ public class MenuController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         #endregion
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void StartNewGame()
@@ -37,4 +39,11 @@ public class MenuController : MonoBehaviour
         UIManager.instance.ShowPreQuitChoicePanel();
     }
 
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Gameplay")
+        {
+            DataManager.loadData();
+        }
+    }
 }
