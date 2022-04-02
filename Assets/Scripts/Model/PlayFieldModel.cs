@@ -6,31 +6,31 @@ using UnityEngine;
 [System.Serializable]
 public struct PlayFieldModel
 {
-    public BubbleField bubbleField;
+    public BubbleFieldModel bubbleField;
 
-    public struct BubbleField
+    public struct BubbleFieldModel
     {
-        public BubbleRow[] bubbleRows;
+        public BubbleRowModel[] bubbleRows;
 
-        public BubbleField(BubbleRow[] bubbleRows)
+        public BubbleFieldModel(BubbleRowModel[] bubbleRows)
         {
             this.bubbleRows = bubbleRows;
         }
     }
 
-    public struct BubbleRow
+    public struct BubbleRowModel
     {
         public Vector3 position;
-        public GoalBubble[] goalBubbles;
+        public GoalBubbleModel[] goalBubbles;
 
-        public BubbleRow(Vector3 position, GoalBubble[] goalBubbles)
+        public BubbleRowModel(Vector3 position, GoalBubbleModel[] goalBubbles)
         {
             this.position = position;
             this.goalBubbles = goalBubbles;
         }
     }
 
-    public PlayFieldModel(BubbleField bubbleField)
+    public PlayFieldModel(BubbleFieldModel bubbleField)
     {
         this.bubbleField = bubbleField;
     }

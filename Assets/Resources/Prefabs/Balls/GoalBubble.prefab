@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2203286062428636158}
   - component: {fileID: -6325113298711914492}
   - component: {fileID: 1752738548104466209}
-  - component: {fileID: -8450461114225086241}
+  - component: {fileID: 49983063122110607}
   m_Layer: 0
   m_Name: GoalBubble
   m_TagString: Obstacle
@@ -143,7 +143,7 @@ SpringJoint2D:
   m_Distance: 0.4
   m_DampingRatio: 0
   m_Frequency: 2
---- !u!114 &-8450461114225086241
+--- !u!114 &49983063122110607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

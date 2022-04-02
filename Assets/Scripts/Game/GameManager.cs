@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Transform playFieldTransform;
     [SerializeField] private GameObject bubbleField;
 
-    private PlayFieldModel playField;
-
     void Awake()
     {
         #region Singleton
@@ -66,36 +64,40 @@ public class GameManager : MonoBehaviour
     }
     public void GeneratePlayField()
     {
-        //GenerateBubbleField();
-        GenerateProjectile();
-        GenerateNextMovesLeftBubble();
+        GenerateBubbleField();
+        //GenerateProjectile();
+        //GenerateNextMovesLeftBubble();
     }
 
-    //public void GenerateBubbleField()
-    //{
-    //    GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform);
-    //    foreach (var bubbleRow in playField.bubbleField.bubbleRows)
-    //    {
-    //        GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
-    //        GameObject bubbleRowInScene = Instantiate(bubbleRowPrefab, bubbleFieldInScene.transform.position, 
-    //            bubbleFieldInScene.transform.rotation);
-    //        bubbleRowInScene.transform.SetParent(bubbleFieldInScene.transform);
-    //        bubbleRowInScene.transform.localPosition = new Vector3(bubbleRow.position.x, bubbleRow.position.y);
+    public void GenerateBubbleField()
+    {
+        GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform);
+        foreach (var bubbleRow in DataManager.GetPlayFieldModel().bubbleField.bubbleRows)
+        {
+            GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
+            GameObject bubbleRowInScene = Instantiate(bubbleRowPrefab, bubbleFieldInScene.transform.position,
+                bubbleFieldInScene.transform.rotation);
+            bubbleRowInScene.transform.SetParent(bubbleFieldInScene.transform);
+            bubbleRowInScene.transform.localPosition = new Vector3(bubbleRow.position.x, bubbleRow.position.y);
 
-    //        foreach (var goalBubble in bubbleRow.goalBubbles)
-    //        {
-    //            GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
-    //            GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
-    //            goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
-    //            ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
+            foreach (var goalBubble in bubbleRow.goalBubbles)
+            {
+                GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
+                GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
+                goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
+                ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
 
-    //            //Обновить модель
-    //            //GoalBubble goal = goalBubbleInScene.GetComponent<GoalBubble>();
-    //        }
-    //    }
-    //}
+                //Отображение модели в редакторе
+                GoalBubbleData scriptableObjectGoalBubbleData = ScriptableObject.CreateInstance<GoalBubbleData>();
+                scriptableObjectGoalBubbleData.SetBubbleType(goalBubble.type);
+                scriptableObjectGoalBubbleData.SetPosition(goalBubble.position);
+                scriptableObjectGoalBubbleData.SetIsExists(goalBubble.isExists);
+                goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel = scriptableObjectGoalBubbleData;
+            }
+        }
+    }
 
-    public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, GoalBubble goalBubble)
+    public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, GoalBubbleModel goalBubble)
     {
         //goalBubbleInScene.transform.position = new Vector3(goalBubble.position.x, goalBubble.position.y, goalBubble.position.z);
         goalBubbleInScene.transform.localPosition = new Vector3(goalBubble.position.x, 0);
@@ -157,15 +159,15 @@ public class GameManager : MonoBehaviour
         ConfigColorBubbleInScene(projectileBubbleInScene, type);
     }
 
-    public void GenerateGoalBubble(BubbleTypes type, Transform transform, Transform parent)
-    {
-        GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
-        GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, transform.position, transform.rotation, parent);
-        ConfigColorBubbleInScene(goalBubbleInScene, goalBubbleInScene.GetComponent<GoalBubble>().type);
-        ConfigSpringJoint(goalBubbleInScene);
-        Debug.Log("New position x:" + transform.position.x);
-        Debug.Log("New position y:" + transform.position.y);
-    }
+    //public void GenerateGoalBubble(BubbleTypes type, Transform transform, Transform parent)
+    //{
+    //    GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
+    //    GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, transform.position, transform.rotation, parent);
+    //    ConfigColorBubbleInScene(goalBubbleInScene, goalBubbleInScene.GetComponent<GoalBubble>().type);
+    //    ConfigSpringJoint(goalBubbleInScene);
+    //    Debug.Log("New position x:" + transform.position.x);
+    //    Debug.Log("New position y:" + transform.position.y);
+    //}
 
     public void GenerateNextMovesLeftBubble()
     {
