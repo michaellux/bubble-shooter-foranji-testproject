@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -6325113298711914492}
   - component: {fileID: 1752738548104466209}
   - component: {fileID: 49983063122110607}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: GoalBubble
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -155,3 +155,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c181d34ff9b1a74419c09d9c2c1177f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scriptableObjectWithModel: {fileID: 0}

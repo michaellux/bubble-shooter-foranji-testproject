@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 public class NextMovesLeftBubbleModel : BubbleModel
 {
-    private int movesLeft;
-
     public NextMovesLeftBubbleModel(BubbleTypes type, int movesLeft)
     {
         this.type = type;

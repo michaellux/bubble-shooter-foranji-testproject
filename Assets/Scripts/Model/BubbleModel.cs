@@ -11,5 +11,6 @@ public abstract class BubbleModel : IModel
     public Vector3 position;
     public BubbleTypes type;
     public bool isExists;
+    public int movesLeft;
 }
 

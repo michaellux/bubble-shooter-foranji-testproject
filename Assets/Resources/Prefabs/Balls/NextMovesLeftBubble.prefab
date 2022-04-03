@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1895371119874203875}
   - component: {fileID: 4939534771392671499}
   - component: {fileID: 6600400436516492114}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NextMovesLeftValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.0048, y: -2.39}
+  m_AnchoredPosition: {x: 0.0048, y: -2.33}
   m_SizeDelta: {x: 0.4544, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &4939534771392671499
@@ -181,7 +181,7 @@ GameObject:
   - component: {fileID: 5179321674451468770}
   - component: {fileID: 5044553284716443305}
   - component: {fileID: 2528144204667045693}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: NextMovesLeftBubble
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c1dfdcdb97aa841a1a354f94863087, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
-  type: 0
-  isExists: 0
-  moves: 5
+  scriptableObjectWithModel: {fileID: 0}

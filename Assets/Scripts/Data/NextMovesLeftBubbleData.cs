@@ -8,15 +8,5 @@ using UnityEngine;
 
 public class NextMovesLeftBubbleData : BubbleData
 {
-    [SerializeField] private int leftMoves;
 
-    public int GetLeftMoves()
-    {
-        return leftMoves;
-    }
-
-    public void SetLeftMoves(int leftMoves)
-    {
-        this.leftMoves = leftMoves;
-    }
 }

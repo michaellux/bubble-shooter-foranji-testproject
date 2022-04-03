@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -8630037321033653388}
   - component: {fileID: 3502432693592040304}
   - component: {fileID: 5865987233540855413}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ProjectileBubble
   m_TagString: Projectile
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ MonoBehaviour:
   obstacles:
   - {fileID: 0}
   - {fileID: 0}
-  type: 0
+  scriptableObjectWithModel: {fileID: 0}
   trajectoryPoints: []
   projectilePath: {fileID: 0}
   power: 10

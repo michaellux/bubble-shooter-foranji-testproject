@@ -5,6 +5,7 @@ using System.IO;
 using UnityEngine;
 
 using Newtonsoft.Json;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,11 +16,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject player;
     public GameObject playFieldInScene;
     public GameObject nextMovesLeftBubbleInScene;
-    //public GameObject nextMovesLeftBubbleInScene;
     [SerializeField] private Transform playFieldTransform;
     [SerializeField] private GameObject bubbleField;
     private ProjectileBubbleModel projectileModel;
-    private NextMovesLeftBubbleModel nextMovesLeftBubbleModel;
+
+    public NextMovesLeftBubbleModel nextMovesLeftBubbleModel;
+
+    private ProjectileBubbleData scriptableObjectProjectileBubbleData;
 
     void Awake()
     {
@@ -42,7 +45,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        //LoadGameData();
         GeneratePlayField();
     }
 
@@ -65,7 +67,7 @@ public class GameManager : MonoBehaviour
 
     public void GenerateBubbleField()
     {
-        GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform);
+        GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform.transform.position, playFieldTransform.transform.rotation);
         foreach (var bubbleRow in DataManager.GetPlayFieldModel().bubbleField.bubbleRows)
         {
             GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
@@ -81,11 +83,9 @@ public class GameManager : MonoBehaviour
                 goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
                 ConfigGoalBubbleInScene(goalBubbleInScene, goalBubble);
 
-                //Отображение модели в редакторе
+                //Установка модели и отображение в редакторе
                 GoalBubbleData scriptableObjectGoalBubbleData = ScriptableObject.CreateInstance<GoalBubbleData>();
-                scriptableObjectGoalBubbleData.SetBubbleType(goalBubble.type);
-                scriptableObjectGoalBubbleData.SetPosition(goalBubble.position);
-                scriptableObjectGoalBubbleData.SetIsExists(goalBubble.isExists);
+                scriptableObjectGoalBubbleData.SetBubbleModel(goalBubble);
                 goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel = scriptableObjectGoalBubbleData;
             }
         }
@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
 
     public void ConfigGoalBubbleInScene(GameObject goalBubbleInScene, GoalBubbleModel goalBubble)
     {
-        //goalBubbleInScene.transform.position = new Vector3(goalBubble.position.x, goalBubble.position.y, goalBubble.position.z);
         goalBubbleInScene.transform.localPosition = new Vector3(goalBubble.position.x, 0);
         ConfigColorBubbleInScene(goalBubbleInScene, goalBubble);
         ConfigSpringJoint(goalBubbleInScene);
@@ -141,23 +140,26 @@ public class GameManager : MonoBehaviour
         projectileModel = new ProjectileBubbleModel(randomType);
         ConfigColorBubbleInScene(projectileBubbleInScene, projectileModel);
 
-        //Отображение модели в редакторе
-        ProjectileBubbleData scriptableObjectProjectileBubbleData = ScriptableObject.CreateInstance<ProjectileBubbleData>();
-        scriptableObjectProjectileBubbleData.SetBubbleType(projectileModel.type);
+        //Установка модели и отображение в редакторе
+        scriptableObjectProjectileBubbleData = ScriptableObject.CreateInstance<ProjectileBubbleData>();
+        scriptableObjectProjectileBubbleData.SetBubbleModel(projectileModel);
         projectileBubbleInScene.GetComponent<ProjectileBubble>().scriptableObjectWithModel = scriptableObjectProjectileBubbleData;
-
-        
     }
 
-    public void GenerateProjectile(BubbleTypes type)
+    public void GenerateProjectileWithConcreteType()
     {
         GameObject projectileBubblePrefab = Resources.Load("Prefabs/Balls/ProjectileBubble") as GameObject;
         GameObject projectileBubbleInScene = Instantiate(projectileBubblePrefab);
         projectileBubbleInScene.transform.SetParent(player.transform);
         projectileBubbleInScene.transform.localPosition = new Vector3(projectileBubblePrefab.transform.position.x,
             projectileBubblePrefab.transform.position.y);
-        projectileModel.type = type;
+        projectileModel.type = nextMovesLeftBubbleModel.type;
         ConfigColorBubbleInScene(projectileBubbleInScene, projectileModel);
+
+        //Установка модели и отображение в редакторе
+        scriptableObjectProjectileBubbleData = ScriptableObject.CreateInstance<ProjectileBubbleData>();
+        scriptableObjectProjectileBubbleData.SetBubbleModel(projectileModel);
+        projectileBubbleInScene.GetComponent<ProjectileBubble>().scriptableObjectWithModel = scriptableObjectProjectileBubbleData;
     }
 
     //public void GenerateGoalBubble(BubbleTypes type, Transform transform, Transform parent)
@@ -183,11 +185,15 @@ public class GameManager : MonoBehaviour
         nextMovesLeftBubbleModel = new NextMovesLeftBubbleModel(randomType, player.GetComponent<Player>().GetPossibleMoves());
 
         ConfigColorBubbleInScene(nextMovesLeftBubbleInScene, nextMovesLeftBubbleModel);
-
+        ConfigNextMovesLeftBubbleInScene();
         //Отображение модели в редакторе
         NextMovesLeftBubbleData scriptableObjectNextMovesBubbleData = ScriptableObject.CreateInstance<NextMovesLeftBubbleData>();
-        scriptableObjectNextMovesBubbleData.SetBubbleType(nextMovesLeftBubbleModel.type);
-        scriptableObjectNextMovesBubbleData.SetLeftMoves(player.GetComponent<Player>().GetPossibleMoves());
+        scriptableObjectNextMovesBubbleData.SetBubbleModel(nextMovesLeftBubbleModel);
         nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().scriptableObjectWithModel = scriptableObjectNextMovesBubbleData;
+    }
+
+    public void ConfigNextMovesLeftBubbleInScene()
+    {
+        nextMovesLeftBubbleInScene.transform.Find("NextMovesLeftValue").GetComponent<TextMeshPro>().text = $"{nextMovesLeftBubbleModel.movesLeft}";
     }
 }

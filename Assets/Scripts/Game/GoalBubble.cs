@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -23,24 +24,46 @@ public class GoalBubble : MonoBehaviour
 
     public void CrashGoalBubbleAlgorithm(Collision2D collision)
     {
-        GameObject currentGameObject = gameObject;
-        Destroy(gameObject);
+        DestroyCurrentGoalBubble();
+        DestroyCurrentProjectile(collision);
+
+        GameManager.instance.GenerateProjectileWithConcreteType();
+        UpdateNextMovesLeftBubble();
 
 
+        //GameManager.instance.GenerateGoalBubble(projectileBubble.GetProjectileBubbleType(),
+        //currentGameObject.transform, currentGameObject.transform.parent);
+    }
+
+    public void DestroyCurrentGoalBubble()
+    {
+        GameObject currentGoalBubbleGameObject = gameObject;
+        Destroy(currentGoalBubbleGameObject);
+    }
+
+    public void DestroyCurrentProjectile(Collision2D collision)
+    {
         GameObject projectile = collision.collider.gameObject;
         ProjectileBubble projectileBubble = projectile.GetComponent<ProjectileBubble>();
         Destroy(projectile);
+    }
 
-        Destroy(GameManager.instance.nextMovesLeftBubbleInScene);
-        //Отладить!
-        //GameManager.instance.GenerateNextMovesLeftBubble();
+    public void UpdateNextMovesLeftBubble()
+    {   
+        BubbleTypes randomType = Utilities.RandomEnumValue<BubbleTypes>();
 
-        //GameManager.instance.GenerateProjectile(GameManager.instance.nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().type);
-        //GameManager.instance.GenerateGoalBubble(projectileBubble.GetProjectileBubbleType(),
-        //currentGameObject.transform, currentGameObject.transform.parent);
-        Debug.Log("Old position x:" + currentGameObject.GetComponent<GoalBubble>().transform.position.x);
-        Debug.Log("Old position y:" + currentGameObject.GetComponent<GoalBubble>().transform.position.y);
+        GameObject nextMovesLeftBubbleInScene = GameManager.instance.nextMovesLeftBubbleInScene;
+        NextMovesLeftBubbleModel nextMovesLeftBubbleModel = GameManager.instance.nextMovesLeftBubbleModel;
 
+        nextMovesLeftBubbleModel.movesLeft--;
+        nextMovesLeftBubbleModel.type = randomType;
 
+        GameManager.instance.ConfigColorBubbleInScene(nextMovesLeftBubbleInScene, nextMovesLeftBubbleModel);
+        GameManager.instance.ConfigNextMovesLeftBubbleInScene();
+
+        //Обновление отображения модели в редакторе
+        NextMovesLeftBubbleData scriptableObjectNextMovesBubbleData = ScriptableObject.CreateInstance<NextMovesLeftBubbleData>();
+        scriptableObjectNextMovesBubbleData.SetBubbleModel(nextMovesLeftBubbleModel);
+        nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().scriptableObjectWithModel = scriptableObjectNextMovesBubbleData;
     }
 }

@@ -11,6 +11,24 @@ public  class BubbleData : ScriptableObject
     [SerializeField] private Vector3 position;
     [SerializeField] private BubbleTypes type;
     [SerializeField] private bool isExists;
+    [SerializeField] private int movesLeft;
+
+    private BubbleModel bubbleModel;
+
+    public void SetBubbleModel(BubbleModel bubbleModel)
+    {
+        this.bubbleModel = bubbleModel;
+
+        SetPosition(this.bubbleModel.position);
+        SetBubbleType(this.bubbleModel.type);
+        SetIsExists(this.bubbleModel.isExists);
+        SetMovesLeft(this.bubbleModel.movesLeft);
+    }
+
+    public BubbleModel GetBubbleModel()
+    {
+        return this.bubbleModel;
+    }
 
     public Vector3 GetPosition()
     {
@@ -38,5 +56,10 @@ public  class BubbleData : ScriptableObject
     public void SetIsExists(bool isExists)
     {
         this.isExists = isExists;
+    }
+
+    public void SetMovesLeft(int movesLeft)
+    {
+        this.movesLeft = movesLeft;
     }
 }
