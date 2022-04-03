@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using UnityEngine;
 
-public abstract class BubbleModel
+public abstract class BubbleModel : IModel
 {
     public Vector3 position;
     public BubbleTypes type;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using UnityEngine;
 
-public class GoalBubbleModel : BubbleModel
+public class GoalBubbleModel : BubbleModel, IModel
 {
     public GoalBubbleModel(Vector3 position, BubbleTypes type, bool isExists)
     {

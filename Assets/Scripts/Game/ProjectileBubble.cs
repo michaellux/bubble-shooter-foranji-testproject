@@ -7,8 +7,8 @@ using PathCreation;
 public class ProjectileBubble : MonoBehaviour
 {
     [SerializeField] private Obstacle[] obstacles;
-    [SerializeField] private BubbleTypes type;
 
+    [SerializeField] public ProjectileBubbleData scriptableObjectWithModel;
 
     private LineRenderer trajectoryLine;
     private Ray potentialTrajectory;
@@ -181,16 +181,6 @@ public class ProjectileBubble : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void SetProjectileBubbleType(BubbleTypes type)
-    {
-        this.type = type;
-    }
-
-    public BubbleTypes GetProjectileBubbleType()
-    {
-        return type;
     }
 
     public double GetDegreeOfTension()

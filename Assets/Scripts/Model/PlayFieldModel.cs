@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 
 [System.Serializable]
-public struct PlayFieldModel
+public struct PlayFieldModel : IModel
 {
     public BubbleFieldModel bubbleField;
 
