@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 using Newtonsoft.Json;
@@ -69,24 +70,27 @@ public class GameManager : MonoBehaviour
     public void GenerateBubbleField()
     {
         GameObject bubbleFieldInScene = Instantiate(bubbleField, playFieldTransform.transform.position, playFieldTransform.transform.rotation);
-        foreach (var bubbleRow in DataManager.GetPlayFieldModel().bubbleField.bubbleRows)
+        foreach (var bubbleRowItem in DataManager.GetPlayFieldModel().bubbleField.bubbleRows.Select((value, index) => new { index, value }))
         {
             GameObject bubbleRowPrefab = Resources.Load("Prefabs/PlayField/BubbleRow") as GameObject;
             GameObject bubbleRowInScene = Instantiate(bubbleRowPrefab, bubbleFieldInScene.transform.position,
                 bubbleFieldInScene.transform.rotation);
             bubbleRowInScene.transform.SetParent(bubbleFieldInScene.transform);
-            bubbleRowInScene.transform.localPosition = new Vector3(bubbleRow.position.x, bubbleRow.position.y);
+            bubbleRowInScene.transform.localPosition = new Vector3(bubbleRowItem.value.position.x, bubbleRowItem.value.position.y);
 
-            foreach (var goalBubbleModel in bubbleRow.goalBubbles)
+            foreach (var goalBubbleModelItem in bubbleRowItem.value.goalBubbles.Select((value, index) => new { index, value }))
             {
+                goalBubbleModelItem.value.positionInRow = bubbleRowItem.index;
+                goalBubbleModelItem.value.positionInColumn = goalBubbleModelItem.index;
+
                 GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
                 GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, bubbleRowInScene.transform.position, bubbleRowInScene.transform.rotation);
                 goalBubbleInScene.transform.SetParent(bubbleRowInScene.transform);
-                ConfigGoalBubbleInScene(goalBubbleInScene, goalBubbleModel);
+                ConfigGoalBubbleInScene(goalBubbleInScene, goalBubbleModelItem.value);
 
                 //Установка модели и отображение в редакторе
                 scriptableObjectGoalBubbleData = ScriptableObject.CreateInstance<GoalBubbleData>();
-                scriptableObjectGoalBubbleData.SetBubbleModel(goalBubbleModel);
+                scriptableObjectGoalBubbleData.SetBubbleModel(goalBubbleModelItem.value);
                 goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel = scriptableObjectGoalBubbleData;
             }
         }
@@ -163,19 +167,24 @@ public class GameManager : MonoBehaviour
         projectileBubbleInScene.GetComponent<ProjectileBubble>().scriptableObjectWithModel = scriptableObjectProjectileBubbleData;
     }
 
-    public void GenerateGoalBubble(BubbleModel bubbleModel, Transform transform, Transform parent)
+    public GameObject GenerateGoalBubbleFromProjectileBubbleModel(BubbleModel projectileBubbleModel, GameObject currentGoalBubble)
     {
         GameObject goalBubblePrefab = Resources.Load("Prefabs/Balls/GoalBubble") as GameObject;
-        GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, transform.position, transform.rotation, parent);
-        
+        GameObject goalBubbleInScene = Instantiate(goalBubblePrefab, currentGoalBubble.transform.position, currentGoalBubble.transform.rotation, currentGoalBubble.transform.parent);
 
-        ConfigColorBubbleInScene(goalBubbleInScene, bubbleModel);
+        ConfigColorBubbleInScene(goalBubbleInScene, projectileBubbleModel);
         ConfigSpringJoint(goalBubbleInScene);
+
+        //Обновление-изменение модели
+        projectileBubbleModel.positionInColumn = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn;
+        projectileBubbleModel.positionInRow = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow;
 
         //Установка модели и отображение в редакторе
         scriptableObjectGoalBubbleData = ScriptableObject.CreateInstance<GoalBubbleData>();
-        scriptableObjectGoalBubbleData.SetBubbleModel(bubbleModel);
+        scriptableObjectGoalBubbleData.SetBubbleModel(projectileBubbleModel);
         goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel = scriptableObjectGoalBubbleData;
+
+        return goalBubbleInScene;
     }
 
     public void GenerateNextMovesLeftBubble()

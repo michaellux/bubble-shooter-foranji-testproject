@@ -15,29 +15,21 @@ public class ProjectileBubble : MonoBehaviour
     private Color rayColor;
     private Vector3 normal;
     private float distance;
-    [SerializeField]
-    private List<Vector3> trajectoryPoints = new List<Vector3>();
+    [SerializeField] private List<Vector3> trajectoryPoints = new List<Vector3>();
 
     private int invokeCountCalcilateRaycastCollisions = 0;
     private int invokeCountCalcilateRaycastCollisionsLimit = 3;
 
-    [SerializeField]
-    private GameObject projectilePath;
+    [SerializeField] private GameObject projectilePath;
+    [SerializeField] private int power;
+    [SerializeField] private Vector3 initialVelocity;
+    [SerializeField] private double degreeOfTension;
 
-    [SerializeField]
-    private int power;
-    [SerializeField]
-    private Vector3 initialVelocity;
-    [SerializeField]
-    private double degreeOfTension;
-
-    // Start is called before the first frame update
     void Start()
     {
         InitTrajectoryLine();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetMouseButton(0))
@@ -109,7 +101,7 @@ public class ProjectileBubble : MonoBehaviour
 
     public void CalculateParabolicTrajectory()
     {
-        Debug.Log("Calculateparabolic");
+        //Debug.Log("Calculateparabolic");
         float enter;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         new Plane(-Vector3.forward, transform.position).Raycast(ray, out enter);
@@ -127,7 +119,7 @@ public class ProjectileBubble : MonoBehaviour
             float time = t * i / (float)(100);
             Vector3 currentPoint = transform.position + initialVelocity * time + 0.5f * Physics.gravity * time * time;
             currentPoint = new Vector3(currentPoint.x, currentPoint.y, 0);
-            Debug.Log(currentPoint);
+            //Debug.Log(currentPoint);
             trajectoryPoints.Add(currentPoint);
             
         }
