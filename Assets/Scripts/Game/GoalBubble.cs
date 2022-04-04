@@ -24,20 +24,18 @@ public class GoalBubble : MonoBehaviour
 
     public void CrashGoalBubbleAlgorithm(Collision2D collision)
     {
-        DestroyCurrentGoalBubble();
+        GameObject currentGoalBubbleGameObject = gameObject;
+        DestroyCurrentGoalBubble(currentGoalBubbleGameObject);
         DestroyCurrentProjectile(collision);
 
+        GenerateNewGoalBubble(currentGoalBubbleGameObject);
         GameManager.instance.GenerateProjectileWithConcreteType();
         UpdateNextMovesLeftBubble();
-
-
-        //GameManager.instance.GenerateGoalBubble(projectileBubble.GetProjectileBubbleType(),
-        //currentGameObject.transform, currentGameObject.transform.parent);
+        
     }
 
-    public void DestroyCurrentGoalBubble()
+    public void DestroyCurrentGoalBubble(GameObject currentGoalBubbleGameObject)
     {
-        GameObject currentGoalBubbleGameObject = gameObject;
         Destroy(currentGoalBubbleGameObject);
     }
 
@@ -65,5 +63,10 @@ public class GoalBubble : MonoBehaviour
         NextMovesLeftBubbleData scriptableObjectNextMovesBubbleData = ScriptableObject.CreateInstance<NextMovesLeftBubbleData>();
         scriptableObjectNextMovesBubbleData.SetBubbleModel(nextMovesLeftBubbleModel);
         nextMovesLeftBubbleInScene.GetComponent<NextMovesLeftBubble>().scriptableObjectWithModel = scriptableObjectNextMovesBubbleData;
+    }
+
+    public void GenerateNewGoalBubble(GameObject currentGoalBubbleInScene)
+    {
+        GameManager.instance.GenerateGoalBubble(GameManager.instance.projectileModel, currentGoalBubbleInScene.transform, currentGoalBubbleInScene.transform.parent);
     }
 }
