@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 using UnityEngine;
 
@@ -12,13 +13,20 @@ public class GoalBubble : MonoBehaviour
     {
         if (collision.collider.gameObject.tag == "Projectile")
         {
+            foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
+            {
+                goalBubbleInScene.GetComponent<CircleCollider2D>().enabled = false;
+            }    
+
             // Опция. Применить паттерн стратегия
             double currentDegreeOfTension = collision.collider.gameObject.GetComponent<ProjectileBubble>().GetDegreeOfTension();
             BubbleTypes type = collision.collider.gameObject.GetComponent<ProjectileBubble>().scriptableObjectWithModel.GetBubbleType();
 
             GameObject newGoalBubble = null;
+            GameObject oldGoalBubble = null;
             if (currentDegreeOfTension >= 100)
             {
+                oldGoalBubble = gameObject;
                 //Debug.Log("Old rowPosition:" + gameObject.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow);
                 //Debug.Log("Old columnPosition:" + gameObject.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn);
                 newGoalBubble = CrashGoalBubbleAlgorithm(collision);
@@ -26,7 +34,14 @@ public class GoalBubble : MonoBehaviour
                 //Debug.Log("New columnPosition:" + newGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn);
             }
 
-            CheckNeighborBubblesWithSameNewGoalBubbleType(newGoalBubble, type);
+            //CheckNeighborBubblesWithSameNewGoalBubbleType(newGoalBubble, type);
+            CheckNeighborBubblesWithSameNewGoalBubbleType(oldGoalBubble, type);
+            CheckBubblesInAir();
+
+            foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
+            {
+                goalBubbleInScene.GetComponent<CircleCollider2D>().enabled = true;
+            }
         }
     }
 
@@ -83,7 +98,7 @@ public class GoalBubble : MonoBehaviour
 
     public void CheckNeighborBubblesWithSameNewGoalBubbleType(GameObject newGoalBubble, BubbleTypes type)
     {
-        var neighborBubbles = GetNeighborBubbles(newGoalBubble);
+        var neighborBubbles = GetNeighborBubbles(newGoalBubble, false);
         var neighborBubblesWithSameNewGoalBubbleType = GetNeighborBubblesWithSameType(neighborBubbles, type);
 
         if (neighborBubblesWithSameNewGoalBubbleType.Count > 2)
@@ -95,12 +110,12 @@ public class GoalBubble : MonoBehaviour
         }
     }
 
-    public List<GameObject> GetNeighborBubbles(GameObject newGoalBubble)
+    public List<GameObject> GetNeighborBubbles(GameObject newGoalBubble, bool withDiagonalNeighborBubbles)
     {
         int newGoalBubblePositionInRow = newGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow;
         int newGoalBubblePositionInColumn = newGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn;
         var neighborBubbles = new List<GameObject>();
-
+        #region Horizontal and vertical
         Predicate<BubbleModel> isUpNeighbor = goalBubbleModel =>
         {
             return goalBubbleModel.positionInRow == newGoalBubblePositionInRow - 1 &&
@@ -113,22 +128,71 @@ public class GoalBubble : MonoBehaviour
         };
         Predicate<BubbleModel> isLeftNeighbor = goalBubbleModel =>
         {
-            return goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn - 1 &&
-            goalBubbleModel.positionInRow == newGoalBubblePositionInRow;
+            return goalBubbleModel.positionInRow == newGoalBubblePositionInRow && 
+            goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn - 1;
         };
         Predicate<BubbleModel> isRightNeighbor = goalBubbleModel =>
         {
             return goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn + 1 &&
             goalBubbleModel.positionInRow == newGoalBubblePositionInRow;
         };
+        #endregion
 
-        foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
+        #region Diagonal
+        Predicate<BubbleModel> isUpLeftNeighbor = goalBubbleModel =>
+        {
+            return goalBubbleModel.positionInRow == newGoalBubblePositionInRow - 1 &&
+            goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn - 1;
+        };
+        Predicate<BubbleModel> isUpRightNeighbor = goalBubbleModel =>
+        {
+            return goalBubbleModel.positionInRow == newGoalBubblePositionInRow - 1 &&
+            goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn + 1;
+        };
+        Predicate<BubbleModel> isDownLeftNeighbor = goalBubbleModel =>
+        {
+            return goalBubbleModel.positionInRow == newGoalBubblePositionInRow + 1 &&
+            goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn - 1;
+        };
+        Predicate<BubbleModel> isDownRightNeighbor = goalBubbleModel =>
+        {
+            return goalBubbleModel.positionInRow == newGoalBubblePositionInRow + 1 &&
+            goalBubbleModel.positionInColumn == newGoalBubblePositionInColumn + 1;
+        };
+        #endregion
+
+        Predicate<BubbleModel>[] conditions;
+
+        if (withDiagonalNeighborBubbles)
+        {
+            conditions = new[] { isUpNeighbor, isDownNeighbor, isLeftNeighbor, isRightNeighbor,
+                    isUpLeftNeighbor, isUpRightNeighbor, isDownLeftNeighbor, isDownRightNeighbor
+                    };
+        }
+        else
+        {
+            conditions = new[] { isUpNeighbor, isDownNeighbor, isLeftNeighbor, isRightNeighbor };
+        }
+
+        var allGoalBubbes = GameObject.FindGameObjectsWithTag("Goal");
+
+        foreach (GameObject goalBubbleInScene in allGoalBubbes)
         {
             var goalBubbleModelNeighbor = goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel();
-            if (isLeftNeighbor(goalBubbleModelNeighbor) ||
-                isRightNeighbor(goalBubbleModelNeighbor) ||
-                isUpNeighbor(goalBubbleModelNeighbor) ||
-                isDownNeighbor(goalBubbleModelNeighbor))
+
+            if (goalBubbleModelNeighbor.positionInColumn == 0 && goalBubbleModelNeighbor.positionInRow == 0)
+            {
+                Debug.Log("00");
+            }
+
+            //if (isLeftNeighbor(goalBubbleModelNeighbor) ||
+            //    isRightNeighbor(goalBubbleModelNeighbor) ||
+            //    isUpNeighbor(goalBubbleModelNeighbor) ||
+            //    isDownNeighbor(goalBubbleModelNeighbor))
+            //{
+            //    neighborBubbles.Add(goalBubbleInScene);
+            //}
+            if (conditions.Any(condition => condition.Invoke(goalBubbleModelNeighbor)))
             {
                 neighborBubbles.Add(goalBubbleInScene);
             }
@@ -152,5 +216,17 @@ public class GoalBubble : MonoBehaviour
         }
 
         return neighborBubblesWithSameNewGoalBubbleType;
+    }
+
+    public void CheckBubblesInAir()
+    {
+        foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
+        {
+            var countOfNeighborBubbles = GetNeighborBubbles(goalBubbleInScene, true).Count;
+            if (countOfNeighborBubbles == 0)
+            {
+                Destroy(goalBubbleInScene);
+            }
+        }
     }
 }

@@ -143,6 +143,8 @@ public class GameManager : MonoBehaviour
 
         BubbleTypes randomType = Utilities.RandomEnumValue<BubbleTypes>();
         projectileModel = new ProjectileBubbleModel(randomType);
+        projectileModel.positionInColumn = 9999;
+        projectileModel.positionInRow = 9999;
         ConfigColorBubbleInScene(projectileBubbleInScene, projectileModel);
 
         //Установка модели и отображение в редакторе
@@ -159,6 +161,8 @@ public class GameManager : MonoBehaviour
         projectileBubbleInScene.transform.localPosition = new Vector3(projectileBubblePrefab.transform.position.x,
             projectileBubblePrefab.transform.position.y);
         projectileModel.type = nextMovesLeftBubbleModel.type;
+        projectileModel.positionInColumn = 9999;
+        projectileModel.positionInRow = 9999;
         ConfigColorBubbleInScene(projectileBubbleInScene, projectileModel);
 
         //Установка модели и отображение в редакторе
@@ -176,12 +180,19 @@ public class GameManager : MonoBehaviour
         ConfigSpringJoint(goalBubbleInScene);
 
         //Обновление-изменение модели
-        projectileBubbleModel.positionInColumn = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn;
-        projectileBubbleModel.positionInRow = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow;
+        GoalBubbleModel goalBubbleModel =
+            new GoalBubbleModel(currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().position,
+            projectileBubbleModel.type, currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().isExists);
+        //projectileBubbleModel.positionInColumn = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn;
+        //projectileBubbleModel.positionInRow = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow;
+
+        goalBubbleModel.positionInColumn = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInColumn;
+        goalBubbleModel.positionInRow = currentGoalBubble.GetComponent<GoalBubble>().scriptableObjectWithModel.GetBubbleModel().positionInRow;
 
         //Установка модели и отображение в редакторе
         scriptableObjectGoalBubbleData = ScriptableObject.CreateInstance<GoalBubbleData>();
-        scriptableObjectGoalBubbleData.SetBubbleModel(projectileBubbleModel);
+        //scriptableObjectGoalBubbleData.SetBubbleModel(projectileBubbleModel);
+        scriptableObjectGoalBubbleData.SetBubbleModel(goalBubbleModel);
         goalBubbleInScene.GetComponent<GoalBubble>().scriptableObjectWithModel = scriptableObjectGoalBubbleData;
 
         return goalBubbleInScene;
