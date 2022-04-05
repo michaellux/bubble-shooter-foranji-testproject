@@ -36,7 +36,9 @@ public class GoalBubble : MonoBehaviour
 
             //CheckNeighborBubblesWithSameNewGoalBubbleType(newGoalBubble, type);
             CheckNeighborBubblesWithSameNewGoalBubbleType(oldGoalBubble, type);
-            CheckBubblesInAir();
+
+            //Диагональные шары удерживают в воздухе? - true
+            CheckBubblesInAir(false);
 
             foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
             {
@@ -218,14 +220,15 @@ public class GoalBubble : MonoBehaviour
         return neighborBubblesWithSameNewGoalBubbleType;
     }
 
-    public void CheckBubblesInAir()
+    public void CheckBubblesInAir(bool withDiagonal)
     {
         foreach (GameObject goalBubbleInScene in GameObject.FindGameObjectsWithTag("Goal"))
         {
-            var countOfNeighborBubbles = GetNeighborBubbles(goalBubbleInScene, true).Count;
+            var countOfNeighborBubbles = GetNeighborBubbles(goalBubbleInScene, withDiagonal).Count;
             if (countOfNeighborBubbles == 0)
             {
-                Destroy(goalBubbleInScene);
+                goalBubbleInScene.GetComponent<SpringJoint2D>().enabled = false;
+                Destroy(goalBubbleInScene, 3f);
             }
         }
     }
