@@ -26,6 +26,11 @@ public class GameManager : MonoBehaviour
     private ProjectileBubbleData scriptableObjectProjectileBubbleData;
     private GoalBubbleData scriptableObjectGoalBubbleData;
 
+    public bool afterHitDiagonalBubblesIsNeighborsToo;
+
+    [SerializeField ]public GameObject winPanel;
+    [SerializeField] public GameObject losePanel;
+
     void Awake()
     {
         #region Singleton
@@ -221,5 +226,50 @@ public class GameManager : MonoBehaviour
     public void ConfigNextMovesLeftBubbleInScene()
     {
         nextMovesLeftBubbleInScene.transform.Find("NextMovesLeftValue").GetComponent<TextMeshPro>().text = $"{nextMovesLeftBubbleModel.movesLeft}";
+    }
+
+    public void MakeDecisionDependingOnPlayerState()
+    {
+        PlayerStates currentPlayerState = CheckWinLossPlayer();
+
+        switch (currentPlayerState)
+        {
+            case PlayerStates.INGAME:
+                break;
+            case PlayerStates.WIN:
+                winPanel.SetActive(true);
+                StartCoroutine(ActivePause(false, true));
+                break;
+            case PlayerStates.LOSS:
+                losePanel.SetActive(true);
+                StartCoroutine(ActivePause(false, true));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public IEnumerator ActivePause(bool status, bool pauseOn)
+    {
+        if (!pauseOn)
+        {
+            Time.timeScale = 1;
+        }
+        else
+        {
+            Time.timeScale = 0;
+        }
+        yield return new WaitForSeconds(2f);
+        
+    }
+
+    public PlayerStates CheckWinLossPlayer()
+    {
+        if (nextMovesLeftBubbleModel.movesLeft == 0)
+        {
+            return PlayerStates.LOSS;
+        }
+
+        return PlayerStates.INGAME;
     }
 }

@@ -21,8 +21,6 @@ public class MenuController : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
         #endregion
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void StartNewGame()
@@ -32,15 +30,10 @@ public class MenuController : MonoBehaviour
     }
     public void ShowCredits()
     {
-        //SceneManager.LoadScene(2);
+        SceneManager.LoadScene("AboutProgram");
     }
     public void QuitGame()
     {
         UIManager.instance.ShowPreQuitChoicePanel();
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        
     }
 }

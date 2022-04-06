@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -38,5 +39,13 @@ public class UIManager : MonoBehaviour
         #endif
     }
 
+    public void GoToDeveloperByLink()
+    {
+        Application.OpenURL("https://t.me/michaelluxsd");
+    }
 
+    public void BackToMainScreen()
+    {
+       SceneManager.LoadScene("MainScreen");
+    }
 }

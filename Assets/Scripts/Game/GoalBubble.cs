@@ -44,8 +44,12 @@ public class GoalBubble : MonoBehaviour
             {
                 goalBubbleInScene.GetComponent<CircleCollider2D>().enabled = true;
             }
+
+            GameManager.instance.MakeDecisionDependingOnPlayerState();
         }
     }
+
+
 
     public GameObject CrashGoalBubbleAlgorithm(Collision2D collision)
     {
@@ -100,7 +104,7 @@ public class GoalBubble : MonoBehaviour
 
     public void CheckNeighborBubblesWithSameNewGoalBubbleType(GameObject newGoalBubble, BubbleTypes type)
     {
-        var neighborBubbles = GetNeighborBubbles(newGoalBubble, false);
+        var neighborBubbles = GetNeighborBubbles(newGoalBubble, GameManager.instance.afterHitDiagonalBubblesIsNeighborsToo);
         var neighborBubblesWithSameNewGoalBubbleType = GetNeighborBubblesWithSameType(neighborBubbles, type);
 
         if (neighborBubblesWithSameNewGoalBubbleType.Count > 2)
