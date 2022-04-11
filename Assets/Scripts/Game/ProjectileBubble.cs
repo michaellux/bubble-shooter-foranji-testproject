@@ -34,37 +34,56 @@ public class ProjectileBubble : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            Debug.Log("Удержание кнопки мыши");
-            CalculateParabolicTrajectory();
-            //CalculateTrajectory();
-            DrawTrajectory(trajectoryPoints.ToArray());
-            GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
-            degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
+            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit2D = Physics2D.Raycast(mousePoint, Vector2.zero); // Vector2.zero если нужен рейкаст именно под курсором;
+            if (hit2D.transform != null)
+            {
+                // If it hit THIS object, do something.
+                if (hit2D.collider.gameObject.tag == "Projectile" || hit2D.collider.gameObject.tag == "Launchpad")
+                {
+                    //Debug.Log("Удержание кнопки мыши");
+                    CalculateParabolicTrajectory();
+                    //CalculateTrajectory();
+                    DrawTrajectory(trajectoryPoints.ToArray());
+                    GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
+                    degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
 
-            trajectoryPoints.Clear();
+                    trajectoryPoints.Clear();
+                }
+            }
         }
         if (Input.GetMouseButtonUp(0))
         {
-              CalculateParabolicTrajectory();
-            //CalculateTrajectory();
-              DrawTrajectory(trajectoryPoints.ToArray());
+            Vector3 mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D hit2D = Physics2D.Raycast(mousePoint, Vector2.zero); // Vector2.zero если нужен рейкаст именно под курсором;
 
-            Vector2[] trajectoryPoints2D = trajectoryPoints.ConvertAll<Vector2>(trajectoryPoint => new Vector2(trajectoryPoint.x, trajectoryPoint.y)).ToArray();
-            //Debug.Log(projectilePath.GetComponent<PathCreator>().bezierPath);
+            if (hit2D.transform != null)
+            {
+                // If it hit THIS object, do something.
+                if (hit2D.collider.gameObject.tag == "Projectile" || hit2D.collider.gameObject.tag == "Launchpad")
+                {
+                    CalculateParabolicTrajectory();
+                    //CalculateTrajectory();
+                    DrawTrajectory(trajectoryPoints.ToArray());
 
-            projectilePath = Resources.Load("Prefabs/ProjectileBubblePath") as GameObject;
-            GameObject projectilePathClone = Instantiate(projectilePath);
+                    Vector2[] trajectoryPoints2D = trajectoryPoints.ConvertAll<Vector2>(trajectoryPoint => new Vector2(trajectoryPoint.x, trajectoryPoint.y)).ToArray();
+                    //Debug.Log(projectilePath.GetComponent<PathCreator>().bezierPath);
+
+                    projectilePath = Resources.Load("Prefabs/ProjectileBubblePath") as GameObject;
+                    GameObject projectilePathClone = Instantiate(projectilePath);
 
 
-            PathCreator projectilePathClonePathCreator = projectilePathClone.GetComponent<PathCreator>();
-            BezierPath bezierPath = new BezierPath(trajectoryPoints2D, false, PathSpace.xy);
-            projectilePathClonePathCreator.bezierPath = bezierPath;
-            projectilePathClonePathCreator.bezierPath.ControlPointMode = BezierPath.ControlMode.Automatic;
-            projectilePathClonePathCreator.bezierPath.AutoControlLength = 0.0f;
-            GetComponent<ProjectileBubbleFollower>().pathCreator = projectilePathClonePathCreator;
-            GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
-            degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
-            trajectoryPoints.Clear();
+                    PathCreator projectilePathClonePathCreator = projectilePathClone.GetComponent<PathCreator>();
+                    BezierPath bezierPath = new BezierPath(trajectoryPoints2D, false, PathSpace.xy);
+                    projectilePathClonePathCreator.bezierPath = bezierPath;
+                    projectilePathClonePathCreator.bezierPath.ControlPointMode = BezierPath.ControlMode.Automatic;
+                    projectilePathClonePathCreator.bezierPath.AutoControlLength = 0.0f;
+                    GetComponent<ProjectileBubbleFollower>().pathCreator = projectilePathClonePathCreator;
+                    GetComponent<ProjectileBubbleFollower>().speed = Mathf.Abs(initialVelocity.y);
+                    degreeOfTension = GetComponent<ProjectileBubbleFollower>().speed * 10;
+                    trajectoryPoints.Clear();
+                }
+            }
         }
     }
 
